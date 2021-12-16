@@ -4,8 +4,8 @@ class Sprite {
   float x, y, w, speed, index;
   int len;
   ArrayList<PImage> animation;
-
-  Sprite(ArrayList<PImage> animation_, float x_, float y_, float speed_) {
+  boolean leftToRight;
+  Sprite(ArrayList<PImage> animation_, float x_, float y_, float speed_, boolean LR) {
     x = x_;
     y = y_;
     animation = animation_;
@@ -13,6 +13,7 @@ class Sprite {
     len = animation.size();
     speed = speed_;
     index = 0;
+    leftToRight = LR;
   }
 
   void show() {
@@ -23,10 +24,16 @@ class Sprite {
   void animate() {
     this.index += this.speed;
     // println(this.index);
-    this.x += this.speed * 15;
+    if(leftToRight)
+      this.x += this.speed * 15;
+    else
+      this.x -= this.speed * 15;
 
     if (this.x > width) {
       this.x = -this.w;
+    }
+    if(this.x < -w && !leftToRight){
+        this.x = width;
     }
   }
 

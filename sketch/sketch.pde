@@ -7,11 +7,13 @@ ArrayList<PImage> dinoAnim;
 ArrayList<PImage> birdAnim;
 
 ArrayList<Sprite> dinos;
+ArrayList<Sprite> birds;
 ArrayList<Rain> meteors;
+
 
 void setup() {
     size(1000,400); 
-    frameRate(10);
+    frameRate(15);
     bg = loadImage("/assets/bg.png");
 
     dinoAnim = new ArrayList<PImage>();
@@ -27,14 +29,25 @@ void setup() {
     //     expAnim.add(loadImage("/assets/explosion/Explosion"+i+".png"));
     // boom = new Sprite(expAnim, 10,265-50, 0.1);
 
+new Sprite(birdAnim, 1000,30, 0.9, false);
     dinos = new ArrayList<Sprite>();
     for (int i = 0; i < 5; i++) 
-       dinos.add(new Sprite(dinoAnim, 450+i+floor(random(100, 700)), 220+i*20, random(0.2, 0.4)));
+        dinos.add(
+           new Sprite(dinoAnim, 450+i+floor(random(10, 700)), 220+i*20, random(0.2, 0.4), true)
+        );
+
+    birds = new ArrayList<Sprite>();
+    for (int i = 0; i < 3; i++) 
+        birds.add(
+           new Sprite(birdAnim, (i+1)*floor(random(100,1000)), (i)*50, random(0.2, 0.4), false)
+        );
 
     meteors = new ArrayList<Rain>();
     for (int i = 0; i < 15; i++) {
         int size = floor(random(50, 100));
-        meteors.add(new Rain(loadImage("/assets/meteor2.png"), 200+ i*300, 0, size, size, random(0.1, 0.3)));
+        meteors.add(
+            new Rain(loadImage("/assets/meteor2.png"), 200+ i*300, 0, size, size, random(0.1, 0.3))
+        );
     }
 }
 
@@ -42,9 +55,14 @@ void draw() {
     background(0);
     backgroundScroll(bg);
 
+
     for (Sprite dino: dinos) {
         dino.show();
         dino.animate();
+    }
+    for (Sprite bird: birds) {
+        bird.show();
+        bird.animate();
     }
 
     for (Rain meteor: meteors) {
